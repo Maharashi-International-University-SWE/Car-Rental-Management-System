@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import Modal from "antd/es/modal/Modal";
 import {IoPeopleCircleOutline} from "react-icons/io5";
-import {GiAutoRepair, GiGymBag} from "react-icons/gi";
+import {GiGymBag} from "react-icons/gi";
 import {DatePicker, Form, Input, notification} from "antd";
 import {postApi} from "../../api/clientApi";
 const { RangePicker } = DatePicker;
@@ -18,14 +18,14 @@ const CarModal = ({isModalVisible,handleCancel, title,img, description,carId  })
         })
         form.setFieldsValue({
             "customerId":customerId,
-
         })
     },[])
 
-    const showNotification = (type,title,message) => {
+    const showNotification = (type,title,message, placement) => {
         notification[type]({
             message:title,
-            description:message
+            description:message,
+            placement: placement
         });
     }
 
@@ -43,9 +43,9 @@ const CarModal = ({isModalVisible,handleCancel, title,img, description,carId  })
             postApi("/reservations",data).then(response => {
                 
                 if(response?.response?.status === 400){
-                    showNotification("warning","Attention!",response?.response?.data?.error?.message);
+                    showNotification("warning","Attention!",response?.response?.data?.error?.message, "bottomRight");
                 }else{
-                    showNotification("success","your reservation was successful","The vehicle will be available for pickup");
+                    showNotification("success","your reservation was successful","The vehicle will be available for pickup", "bottomRight");
 
                 }
                
@@ -65,7 +65,7 @@ const CarModal = ({isModalVisible,handleCancel, title,img, description,carId  })
             <Modal
                 className="car-modal" title={title}
                 visible={isModalVisible}
-                okText="Reserve"
+                okText="Book"
                 onOk={form.submit}
                 onCancel={handleCancel}
             >
@@ -76,14 +76,14 @@ const CarModal = ({isModalVisible,handleCancel, title,img, description,carId  })
                     </div>
                     <div className="content">
                         <ul className="specification">
-                            <li> <IoPeopleCircleOutline/> 4 people </li>
-                            <li> <GiGymBag/> 3 bag </li>
-                            <li> <GiAutoRepair/> automatic </li>
+                            <li> <IoPeopleCircleOutline/> 5 people </li>
+                            <li> <GiGymBag/> 2 bag </li>
                         </ul>
                         <p className="description">{description}</p>
                     </div>
                 </div>
-                <div className="request_date" style={{ padding:"1rem",display:"flex" , flexDirection:"column", justifyContent:"center", backgroundColor:"rgba(123,179,234,0.22)"}}>
+                <div className="request_date" style={{ padding:"1rem",display:"flex" , flexDirection:"column", justifyContent:"center",
+                                                       backgroundColor:"rgba(123,179,234,0.22)"}}>
                     <h6>Please select pickup and return dates for this vehicle</h6>
                     <Form layout="vertical"
                           hideRequiredMark

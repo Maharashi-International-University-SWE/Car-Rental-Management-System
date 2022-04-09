@@ -1,12 +1,11 @@
 import React from 'react';
 import styled from "styled-components";
-import hero from "../assets/new-york.jpg";
-import car from "../assets/benz.png";
+import car from "../assets/luxury_car1.gif";
 import Form from "./Form";
 
 const Hero = ({onSearchCars}) => {
     return (
-        <HeroSection bg={hero}>
+        <HeroSection>
             <Form onSearchCars={onSearchCars}/>
             <img src={car} alt="Car"/>
         </HeroSection>
@@ -15,10 +14,8 @@ const Hero = ({onSearchCars}) => {
 
 
 const  HeroSection = styled.div`
-  background-image: url(${props => props.bg});
-  background-size: cover;
-  padding: 6rem;
-  margin: 3rem;
+  background-image: url();
+  background-size: cover;  
   border-radius: 1rem;
   height: 75vh;
   position: relative;
@@ -26,21 +23,19 @@ const  HeroSection = styled.div`
   &::before{
     position: absolute;
     content: "";
-    width: 100%;
+    width: 50%;
     height: 100%;
-    background: rgba(0,0,0,.5);
+    background: rgba(0,0,0,0);
     top: 0;
     left: 0;
     border-radius: 1rem;
   }
   
   img{
-    width: 60%;
-    position: absolute;
-    right: -5rem;
-    bottom: -3rem;
-  }
-  
+    width: 100%;
+    position: center;
+    border-radius: 0.5rem;    
+  }  
 `;
 
 export default Hero;

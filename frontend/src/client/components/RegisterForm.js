@@ -8,30 +8,35 @@ import {Button, Col, Form, Input, Row,notification} from "antd";
 import {userRegistration} from "../../api/userApi";
 import {registrationFail, registrationPending, registrationSuccess} from "../../features/reducers/userSlice";
 
+
 const LoginForm = () => {
   const dispatch = useDispatch();
   const formRef = useRef(null);
   const [sending, setSending] = useState(false);
   const [error,setError] = useState(false);
-  const errorNotification = (message) => {
+
+
+  const errorNotification = (message, placement) => {
     notification["error"]({
-        message:message
+        message:message,
+        placement: placement
     });
 }
 
-const successNotification = () => {
-        notification["success"]({
-            message:"your reservation was successful",
-            description:"The vehicle will be available for pickup"
-        });
-    }
+
+ const successNotification = () => {
+         notification["success"]({
+            message:"You successfully registered"
+         });
+     }
 
     const displayError = (message) => <Alert variant="danger">{message}</Alert>
 
   const onFinish = async (values) => {
     setSending(true);
     const data = {
-      "role": "CUSTOMER",
+      "role": "EMPLOYEE",
+      //"role": "CUSTOMER",
       "email": values.email,
       "password": values.password,
       "username": values.username,
@@ -40,20 +45,25 @@ const successNotification = () => {
       "contactPhoneNumber": values.contactPhoneNumber,
       "driverLicenseNumber": values.driverLicenseNumber,
     };
+
+
     dispatch(registrationPending());
     try {
-      await userRegistration(data);
+      const user = await userRegistration(data);
       dispatch(registrationSuccess());
-      formRef.reset();
+      if(user) {
+        alert("Successfully Registered");
+      }
     } catch (e) {
       setError(true);
+      alert("Failed to Register");
       displayError(e?.data?.error?.message || "Something went wrong");
       dispatch(registrationFail(e?.data?.error?.message || "Something went wrong"))
-      
     } finally {
       setSending(false);
     }
   };
+
 
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
@@ -61,6 +71,7 @@ const successNotification = () => {
 
   return (
     <Fragment>
+      <div className="">
       <Form layout="vertical" hideRequiredMark
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
@@ -70,7 +81,12 @@ const successNotification = () => {
             <Form.Item
               name="firstName"
               label="First Name"
-              rules={[{required: true, message: 'Please enter First Name'}]}>
+              rules={[{required: true, message: 'Please enter First Name'},
+                { whitespace: true },
+                { min: 3 },
+              ]}
+              hasFeedback
+            >
               <Input placeholder="Please enter First Name"/>
             </Form.Item>
           </Col>
@@ -78,7 +94,12 @@ const successNotification = () => {
             <Form.Item
               name="lastName"
               label="Last Name"
-              rules={[{required: true, message: 'Please enter Last Name'}]}>
+              rules={[{required: true, message: 'Please enter Last Name'},
+                { whitespace: true },
+                { min: 3 },
+              ]}
+              hasFeedback
+            >
               <Input placeholder="Please enter Last Name"/>
             </Form.Item>
           </Col>
@@ -88,7 +109,11 @@ const successNotification = () => {
             <Form.Item
               name="email"
               label="Email Address"
-              rules={[{required: true, message: 'Please enter a valid email address'}]}>
+              rules={[{required: true, message: 'Please enter a valid email address'},
+                { type: "email", message: "Please enter a valid email" },
+              ]}
+              hasFeedback
+            >
               <Input placeholder="Please enter an email address"/>
             </Form.Item>
           </Col>
@@ -96,7 +121,11 @@ const successNotification = () => {
             <Form.Item
               name="username"
               label="Username"
-              rules={[{required: true, message: '*Username is required'}]}
+              rules={[{required: true, message: '*Username is required'},
+                { whitespace: true },
+                { min: 3 },
+              ]}
+              hasFeedback
             >
               <Input placeholder="Please enter a username"/>
             </Form.Item>
@@ -107,7 +136,12 @@ const successNotification = () => {
             <Form.Item
               label="Phone Number"
               name="contactPhoneNumber"
-              rules={[{required: true, message: '*Contact phone number is required'}]}>
+              rules={[{required: true, message: '*Contact phone number is required'},
+                { whitespace: true },
+                { min: 10 },
+              ]}
+              hasFeedback
+            >
               <Input placeholder="Please enter contact number"/>
             </Form.Item>
           </Col>
@@ -115,7 +149,12 @@ const successNotification = () => {
             <Form.Item
               name="driverLicenseNumber"
               label="Driver License Number"
-              rules={[{required: true, message: 'Please enter your driver license number'}]}>
+              rules={[{required: true, message: 'Please enter your driver license number'},
+                { whitespace: true },
+                { min: 9 },
+              ]}
+              hasFeedback
+            >
               <Input placeholder="Please enter driver license number"/>
             </Form.Item>
           </Col>
@@ -125,7 +164,11 @@ const successNotification = () => {
             <Form.Item
               name="password"
               label="Password"
-              rules={[{required: true, message: '*Password is required'}]}
+              rules={[{required: true, message: '*Password is required'},
+                { whitespace: true },
+                { min: 7 },
+              ]}
+              hasFeedback
             >
               <Input.Password
                 placeholder="Please enter password"
@@ -148,6 +191,7 @@ const successNotification = () => {
                   },
                 }),
               ]}
+              hasFeedback
             >
               <Input.Password
                 placeholder="Please re-enter your password"
@@ -158,11 +202,14 @@ const successNotification = () => {
         </Row>
         <Row>
           <Button type="primary" htmlType="submit" disabled={sending}>
-            {sending ? 'Please wait ... ' : 'Submit'}
+            {sending ? 'Please wait ... ' : 'Sign up'}
+          </Button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <Button type="primary" htmlType="reset">
+            Reset
           </Button>
         </Row>
-        {error && successNotification()}
       </Form>
+      </div>
     </Fragment>
   );
 };

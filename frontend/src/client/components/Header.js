@@ -2,21 +2,21 @@ import React, {useRef, useState,useEffect} from 'react';
 import Container from "@mui/material/Container";
 import {Nav, Navbar} from "react-bootstrap";
 import styled from "styled-components";
-import {MdCarRental} from "react-icons/md";
 import RegisterAndLoginDrawer from "./RegisterAndLoginDrawer";
 import {FaCarAlt} from "react-icons/fa";
 import {useSelector} from "react-redux";
-import {AiOutlinePoweroff} from "react-icons/ai";
+import {AiOutlineUser} from "react-icons/ai";
+import {Link} from "react-router-dom";
 
 const Header = () => {
     const NavbarRef = useRef(null);
     const [open,setOpen] = useState(false);
     const [isLoggedOut,setIsLoggedOut] = useState(false);
-
     const {isAuth} = useSelector(state => state.login);
 
     const userId = localStorage.getItem('userId');
     const firstname = localStorage.getItem('firstName');
+    const role = localStorage.getItem('role');
 
     useEffect(() => {
         if(isAuth){
@@ -41,30 +41,32 @@ const Header = () => {
 
     return (
         <HeaderContainer >
-            <Navbar className="fixed-top sticky-top position-absolute navbar-0 position-relative" ref={NavbarRef}>
+            <Navbar className="fixed-top navbar-0 bg-dark navbar-expand-lg" ref={NavbarRef}>
                     <Container>
                         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                         <Navbar.Collapse id="responsive-navbar-nav">
                             <Nav className="me-auto">
                                 <Navbar.Brand href="/" className="d-flex justify-content-center align-items-center gap-2">
-                                    <MdCarRental style={{ fontSize:'2rem' }}/>
+                                    {/*<Link style={{textDecoration: "none"}}>*/}
                                     <span>
-                                        Smart Car<br/>Rentals
+                                      <span style={{color: 'red', fontStyle: 'italic', fontSize: '25px', fontWeight: 'bold'}}>Luxury Car</span>&nbsp;&nbsp;<span style={{fontSize: '18px', color: 'white', fontWeight: 'bold'}}>Rentals</span>
                                     </span>
+                                    {/*</Link>*/}
                                 </Navbar.Brand>
                             </Nav>
                             <Nav>
-                                <Nav.Link href="#fleetSection" icon={<FaCarAlt/>}>Our fleet</Nav.Link>
-                                
-                                { 
+                                {(role === "EMPLOYEE" && <Nav.Link href='/admin/dashboard' style={{paddingLeft: '10px', paddingRight: '10px'}}>Dashboard</Nav.Link> )}
+                            </Nav>
+                            <Nav>
+                                <Nav.Link href="#fleetSection" icon={<FaCarAlt/>}>Explore</Nav.Link>
+                                {
                                 (userId && !isLoggedOut)?  <Nav.Link icon={<FaCarAlt/>} eventKey={2}>
-                                {firstname} | <AiOutlinePoweroff title='logout' style={{ fontWeight:"bold"}} onClick={ ()=> logout() }/>
+                                        {firstname}  | <AiOutlineUser title='logout' style={{ fontWeight:"bold"}} onClick={ ()=> logout() }/>
                             </Nav.Link>:
                                 <Nav.Link icon={<FaCarAlt/>} eventKey={2} onClick={setOpen}>
-                                Account
+                                Login
                                 </Nav.Link>
                               }
-                                
                             </Nav>
                         </Navbar.Collapse>
                     </Container>
@@ -76,11 +78,10 @@ const Header = () => {
 
 
 const HeaderContainer = styled.div`
-   .navbar-0{
-     margin-top: 3rem;
+   .navbar-0{     
      a.navbar-brand{
        color: #fff;
-       font-size: 1rem;
+       font-size: 2rem;
        opacity: .8;
        text-transform: uppercase;
      }
@@ -88,8 +89,7 @@ const HeaderContainer = styled.div`
      .navbar-nav a{
        color: #fff;
        opacity: .8;
-       text-transform: uppercase;
-       font-size: 70%;
+       text-transform: uppercase;       
        &:hover, &:focus, &:active{
          color: #f1f1f1;
        }
