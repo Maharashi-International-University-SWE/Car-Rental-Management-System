@@ -35,8 +35,8 @@ const LoginForm = () => {
   const onFinish = async (values) => {
     setSending(true);
     const data = {
-      "role": "EMPLOYEE",
-      //"role": "CUSTOMER",
+      //"role": "EMPLOYEE",
+      "role": "CUSTOMER",
       "email": values.email,
       "password": values.password,
       "username": values.username,
