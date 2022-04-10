@@ -9,12 +9,10 @@ import { useNavigate } from 'react-router';
 
 const LoginForm = () => {
     const dispatch = useDispatch();
-    const navigate = useNavigate();
     const formRef = useRef(null);
     const {isLoading,error} = useSelector(state => state.login);
 
     const onFinish = async (values) => {
-        // setSending(true);
         const data = {
             "username": values.username,
             "password": values.password,
@@ -26,10 +24,9 @@ const LoginForm = () => {
             localStorage.setItem("userId",id);
             localStorage.setItem("firstName",firstName);
             localStorage.setItem("role",role);
-            if(role === "EMPLOYEE") navigate("/admin/dashboard");
             dispatch(loginSuccess());
         } catch (e) {
-            dispatch(loginFail(e?.data?.error?.message || "Something went wrong"))
+            dispatch(loginFail(e?.data?.error?.message || "Invalid username or password"))
         }
     }
 
@@ -56,7 +53,11 @@ const LoginForm = () => {
                         <Form.Item
                             name="username"
                             label="Username"
-                            rules={[{ required: true, message: '*Username is required' }]}
+                            rules={[{ required: true, message: '*Username is required' },
+                                { whitespace: true },
+                                { min: 3 },
+                            ]}
+                            hasFeedback
                         >
                             <Input placeholder="Please enter username"/>
                         </Form.Item>
@@ -65,16 +66,14 @@ const LoginForm = () => {
                         <Form.Item
                             name="password"
                             label="Password"
-                            rules={[{ required: true, message: '*Password is required' }]}
-
-                        >
-                            <Input.Password placeholder="Please enter email address"/>
+                            rules={[{ required: true, message: '*Password is required' }]} >
+                            <Input.Password placeholder="Please enter password"/>
                         </Form.Item>
                     </Col>
                 </Row>
                 <Row>
                     <Button type="primary" htmlType="submit"  disabled={isLoading} loading={isLoading}>
-                        {isLoading? 'Please wait ... ': 'Submit'}
+                        {isLoading? 'Please wait ... ': 'Login'}
                     </Button>
                 </Row>
             </Form>

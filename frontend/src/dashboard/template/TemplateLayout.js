@@ -1,41 +1,25 @@
 import React, {Fragment} from 'react';
-import {Avatar, Badge, Breadcrumb, Button, Empty, Menu, notification, Popconfirm, Radio, Spin, Table, Tag} from "antd";
-import Layout , {Content, Footer, Header} from "antd/es/layout/layout";
-import {useNavigate} from "react-router";
-import {Link} from "react-router-dom";
+import Layout , {Content, Header} from "antd/es/layout/layout";
+import DashboardHeader from "../components/DashboardHeader";
+import Footer from "../../client/components/Footer";
+
 const TemplateLayout = ({children}) => {
 
-    const navigate = useNavigate();
+
+    const role = localStorage.getItem('role');
+
 
     return (
+
         <Fragment>
+            {(role == "EMPLOYEE" &&
             <Layout className="layout" style={{ minHeight: '100vh' }}>
-                <Header>
-                    <div className="logo" />
-                    <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']}>
-                        <Menu.Item key="1">
-                            <div className="logo" >
-                                Smart Car Rental
-                            </div>
-                        </Menu.Item>
-                        <Menu.Item key="2"  >
-                            <Link to="/admin/dashboard/cars">
-                                Cars
-                            </Link>
-                        </Menu.Item>
-                        <Menu.Item key="3" >
-                            <Link to="/admin/dashboard/reservations">
-                                Reservations
-                            </Link>
-                        </Menu.Item>
-                    </Menu>
-                </Header>
+                <DashboardHeader />
                 <Content style={{ padding: '0 50px' }}>
                     {children}
                 </Content>
-                <Footer style={{ textAlign: 'center' }}>Smart Car Rental, &coy; 2022</Footer>
-            </Layout>
-            
+                <Footer />
+            </Layout>  )}
         </Fragment>
     );
 };

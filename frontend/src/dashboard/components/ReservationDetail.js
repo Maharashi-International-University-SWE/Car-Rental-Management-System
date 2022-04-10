@@ -5,15 +5,15 @@ import CardActions from '@mui/material/CardActions';
 import { putApi } from '../../api/clientApi';
 import {Alert} from "react-bootstrap";
 import styled from 'styled-components';
-import { style } from '@mui/system';
 import {notification} from "antd";
 const ReservationDetail = ({updateReservations,closeDrawer, openDrawer, open,reservation}) => {
 
 
-    const showNotification = (type, title, message) => {
+    const showNotification = (type, title, message, placement) => {
         notification[type]({
             message: title,
-            description: message
+            description: message,
+            placement: placement
         });
     }
     const confirm = () =>{
@@ -21,7 +21,7 @@ const ReservationDetail = ({updateReservations,closeDrawer, openDrawer, open,res
         .then(response => {
             closeDrawer();
             updateReservations(response.data)
-            showNotification("success","Reservation confirmed", "This reservation have been confirmed")
+            showNotification("success","Reservation confirmed", "This reservation have been confirmed", "bottomRight")
         })
         .catch(error => console.log(error.message));
     }
@@ -31,7 +31,7 @@ const ReservationDetail = ({updateReservations,closeDrawer, openDrawer, open,res
         .then(response => {
             closeDrawer()
             updateReservations(response.data)
-            showNotification("success","Reservation Cancel", "This reservation have been cancelled")
+            showNotification("success","Reservation Cancel", "This reservation have been cancelled", "bottomRight")
         })
         .catch(error => console.log(error.message));
     }
@@ -41,7 +41,7 @@ const ReservationDetail = ({updateReservations,closeDrawer, openDrawer, open,res
         .then(response => {
             closeDrawer();
             updateReservations(response.data)
-            showNotification("success","Reservation completed", "This reservation has been closed")
+            showNotification("success","Reservation completed", "This reservation has been closed", "bottomRight")
         })
         .catch(error => console.log(error.message));
     }
@@ -51,7 +51,7 @@ const ReservationDetail = ({updateReservations,closeDrawer, openDrawer, open,res
         .then(response => {
             closeDrawer()
             updateReservations(response.data)
-            showNotification("success","Car picked up", "Car has been issued to customer")
+            showNotification("success","Car picked up", "Car has been issued to customer", "bottomRight")
         })
         .catch(error => console.log(error.message));
     }
@@ -76,7 +76,7 @@ const drawerBleeding = 50;
             <Box sx={
                 {padding:"2rem"}}>
 
-                    <CardDetaited>
+                    <CardDetailed>
 
                         <div className='customer'>
                             <h5>
@@ -102,7 +102,7 @@ const drawerBleeding = 50;
 
                         </div>
 
-                    </CardDetaited>
+                    </CardDetailed>
 
 
                 <Card sx={{ display: 'flex' }}>
@@ -127,7 +127,7 @@ const drawerBleeding = 50;
   );
 };
 
-const CardDetaited = styled.div`
+const CardDetailed = styled.div`
 
 `;
 

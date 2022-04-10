@@ -91,11 +91,11 @@ const Cars = () => {
             return <Spin indicator={loader}/>
         }
 
-        if (cars.length <= 0){
-            return <Empty>
-                <Button type="primary">Add First Car</Button>
-            </Empty>
-        }
+        // if (cars.length <= 0){
+        //     return <Empty>
+        //         <Button type="primary">Add First Car</Button>
+        //     </Empty>
+        // }
 
         return <Table
             dataSource={cars}
@@ -104,7 +104,6 @@ const Cars = () => {
             title = {() =>{
                 return  <>
                     <Button type="primary" htmlType="button" >
-                        <PlusCircleOutlined/> Add car record
                     </Button><br/><br/>
                     <Tag>Number of Cars</Tag>
                     <Badge count={cars.length} className="site-badge-count" />

@@ -9,10 +9,11 @@ import {notification} from "antd";
 const Fleet = ({ img, brand, model, description , carId,reserveStatus}) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
 
-    const showNotification = (type, title, message) => {
+    const showNotification = (type, title, message, placement) => {
         notification[type]({
             message: title,
-            description: message
+            description: message,
+            placement: placement
         });
     }
 
@@ -20,7 +21,7 @@ const Fleet = ({ img, brand, model, description , carId,reserveStatus}) => {
         if(localStorage.getItem("token") && localStorage.getItem("role") === "CUSTOMER" ) {
             setIsModalVisible(true);
         } else {
-            showNotification("warning", "Warning", "Sorry you need to login as customer to make reservation.");
+            showNotification("warning", "Warning", "Sorry you need to login as customer to make reservation.", "bottomRight");
         }
     };
 
@@ -44,12 +45,12 @@ const Fleet = ({ img, brand, model, description , carId,reserveStatus}) => {
                     <ul className="specification">
                         <li> <IoPeopleCircleOutline/> 4 people </li>
                         <li> <GiGymBag/> 3 bag </li>
-                        <li> <GiAutoRepair/> automatic </li>
+                        {/*<li> <GiAutoRepair/> automatic </li>*/}
                     </ul>
                     { (reserveStatus) ? <button  className="reserved-button"  disabled={reserveStatus}>
-                         Reserved
-                    </button>: <button className="select-button" onClick={showModal} disabled={reserveStatus}>
-                        Reserve car
+                         Booked
+                    </button>: <button className="select-button" style={{backgroundColor: 'red'}} onClick={showModal} disabled={reserveStatus}>
+                        Book Now
                     </button> }
                     
                 </div>

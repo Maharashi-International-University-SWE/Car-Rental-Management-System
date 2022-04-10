@@ -1,16 +1,12 @@
 
 import React, { Fragment,useState,useEffect } from 'react';
-import {Breadcrumb, Button, Empty, Popconfirm, Spin, Table, Tag,Badge} from "antd";
+import {Breadcrumb, Button, Table, Tag,Badge} from "antd";
 import { getApi } from '../../api/clientApi';
-import {
-    LoadingOutlined, PlusCircleOutlined, UsergroupAddOutlined, ProfileTwoTone,
-} from '@ant-design/icons';
 import ReservationDetail from './ReservationDetail';
 const Reservations = () => {
 
-    const [reservations,seteservations] = useState([]);
+    const [reservations,setReservations] = useState([]);
     const [fetching,setFetching] = useState(true);
-    const loader = <LoadingOutlined style={{fontSize:30}} spin/>;
     const [selected,setSelected] = useState({});
 
     const [open,setOpen] = useState(false);
@@ -32,14 +28,14 @@ const Reservations = () => {
         let newReservations = reservations.filter( r  => r.id !== reservation.id );
         console.log(newReservations);
         newReservations.push(reservation);
-        seteservations(newReservations);
+        setReservations(newReservations);
     }
 
 
     const loadReservations = () =>{
         getApi("/reservations")
             .then(response => {
-                seteservations(response.data.map ( (data, index) => {
+                setReservations(response.data.map ( (data, index) => {
                     data.key = index+1;
                     data.index = index+1;
                     return data;
