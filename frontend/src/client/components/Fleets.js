@@ -12,7 +12,7 @@ const Fleets = ({cars}) => {
                 <p style={{fontSize: '150%', marginTop: '3%'}}>From exotic sports cars to luxury sedans and SUVs, the Exotic Car Collection by <span style={{fontWeight: 'bold', fontStyle: 'italic', color: 'red'}}>Luxury Car </span><span style={{fontWeight: 'bold', fontStyle: 'italic'}}>Rentals</span> offers an exceptional selection and the trusted, personalized service of Luxury Car Rentals.</p>
                 <div className="fleets">
                     {
-                       cars.length > 0 && cars.map((car,index) =>
+                        cars && cars.length > 0 && cars.map((car,index) =>
                             <Fleet key={car.carId} carId={car.carId} reserveStatus={car.isReserved} img={car.imageCover} brand={car.name} model={car.model} description={car.description} />
                         )
                     }

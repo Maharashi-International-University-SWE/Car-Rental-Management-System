@@ -1,33 +1,31 @@
-## Luxury Car Rental System.
+## Car rental's backend
 
+### !Important
 
+The backend application follows the n-tier architecture with emphasis of the following.
+1. Separation Of Concern.
+2. Dependency Injection thanks to Spring boot.
 
 ### Technologies used.
 
-- The application is built using [React.js](https://reactjs.org/) for the frontend
-  and [Java (Spring boot)](https://spring.io/projects/spring-boot) in the backend.
+- The backend is built using [Java (Spring boot)](https://spring.io/projects/spring-boot) in the backend.
 - It is running on the [MysSQL DB](https://www.mysql.com/).
+- The backend image can be created using [docker](https://www.docker.com/).
 
 ### Prerequisites.
 
 - Environments and/or programming language prerequisites.
-    - JavaScript: [Node.js](https://nodejs.org/en/) preferably download _v10_ ([download link](https://nodejs.org/en/))
     - Java JDK: [JDK](https://www.oracle.com/java/technologies/downloads/) preferably download _jdk
       16_ ([download link](https://www.oracle.com/java/technologies/downloads/))
-
-
+- Editors or IDEs
+    - **IDEs/editors:**
+    - _Preferably_: [Intellij](https://www.jetbrains.com/idea/download/)
+      link ([download link](https://www.jetbrains.com/idea/))
+    - _Alternative_: [Eclipse](https://www.eclipse.org/downloads/)
+      link ([download link](https://www.eclipse.org/downloads/))
 
 ### Getting started.
 
-
-##### Frontend.
-
-- navigate / cd into the frontend directory `cd frontend`
-- install the frontend dependencies by running the command `npm install` or `yarn`
-
-  ##### Backend.
-
-- navigate / cd into the backend directory `cd backend`
 - install backend dependencies by running the command `mvn install`
 - alternatively open the backend with your either eclipse or intellij and the dependencies will be installed
   automatically.
@@ -36,20 +34,15 @@
 
 **Run the application.**
 
-navigate to the in each directory for either the backend or the frontend and follow the instructions below for the
-specific directory you in.
+Choose one of the following alternatives to run the backend on your laptop.
 
-- Frontend:
+- Using Docker and Docker compose (make sure you have docker installed):
     ````
-    run the frontend with one of the following commands depending on your application manager:
-  
-      NPM
-      - npm start
-      YARN
-      - yarn start
+      docker compose command
+      - docker compose up
     ````
 
-- Backend:
+- Manually (make sure you have mysql installed and a database setup for the application):
     ````
     run the backend with intellij IDE.
   
@@ -65,11 +58,3 @@ specific directory you in.
         - java -jar target/app-0.0.1-SNAPSHOT.jar
         - mvn spring-boot:run
     ````
-
-
-
-
-
-
----------
-
